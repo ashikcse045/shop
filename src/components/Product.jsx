@@ -1,23 +1,51 @@
 import Img from "./Img";
 import MaterialIcon from "./MaterialIcon";
 import { NavLink } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import ProductContext from "../contexts/ProductContext";
+import axios from "axios";
 
 const Product = () => {
+  const {id, title, price, category, image, dispatch} = useContext(ProductContext);
+  useEffect(() => {
+    document.title = 'Home';
+  }, []);
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    
+    const deleteProduct = async () => {
+      try {
+        const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+        if(res.status === 200) {
+          dispatch({type: 'DELETE', productId: id});
+        }
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    deleteProduct();
+  }
+
   return (
     <div className="border border-gray-200">
       {/* <!-- image --> */}
       <div className="h-72 overflow-hidden flex items-center">
-        <Img url='https://images.unsplash.com/photo-1553456558-aff63285bdd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' />
+        <NavLink to={`/products/${id}`}>
+          <Img url={image} />
+        </NavLink>
       </div>
       {/* <!-- product description --> */}
       <div className="px-2 py-3 bg-white">
-        <NavLink to="/" className="block">
-          <h1 className="text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta,
-            quis!
+        <NavLink to={`/products/${id}`} className="block">
+          <h1 className="text-xl hover:text-gray-700 transition-colors">
+            {title}
           </h1>
         </NavLink>
-        <p className="mt-2 tracking-wider text-red-600">$120</p>
+        <NavLink to={`/categories/${category}`} className="block mt-3" >
+          <p>{category}</p>
+        </NavLink>
+        <p className="mt-2 tracking-wider text-red-600">${price}</p>
         <ul className="flex flex-row justify-start space-x-4 mt-4">
           <li>
             <NavLink to="/">
@@ -25,7 +53,7 @@ const Product = () => {
             </NavLink>
           </li>
           <li>
-            <button>
+            <button type="button" onClick={handleDelete}>
               <MaterialIcon>delete</MaterialIcon>
             </button>
           </li>

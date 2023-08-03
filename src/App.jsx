@@ -3,10 +3,10 @@ import GlobalState from "./helpers/GlobalState";
 import GlobalContext from "./contexts/GlobalContext";
 
 function App() {
-  const { globalState, reducer } = GlobalState();
+  const { globalState, dispatch } = GlobalState();
 
   return (
-    <GlobalContext.Provider value={{globalState, reducer}}>
+    <GlobalContext.Provider value={{globalState, dispatch}}>
       <AllRoutes />
     </GlobalContext.Provider>
   );

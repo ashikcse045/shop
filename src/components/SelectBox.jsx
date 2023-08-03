@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-const SelectBox = ({ name, options = [] }) => {
+const SelectBox = ({ name, options = [], handleChange, value }) => {
   return (
     <div className="space-y-2">
       <label htmlFor={name} className="capitalize block">
@@ -9,6 +9,8 @@ const SelectBox = ({ name, options = [] }) => {
         name={name}
         id={name}
         className="block w-full border-2 border-gray-500 outline-none px-4 py-2 rounded-md"
+        value={value}
+        onChange={handleChange}
       >
         <option value="">selcct category</option>
         {options.map((element) => (
