@@ -1,0 +1,47 @@
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;500;600&display=swap');
+
+/* material icons */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .smallContainer {
+        @apply lg:px-24
+    }
+    .navElement {
+        position: relative;
+    }
+    .navElement::before {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 3px;
+        left: 0;
+        bottom: 0;
+        background-color: #FF671F;
+    }
+
+    .navElement:hover::before {
+        width: 100%;
+        transition: 0.4s;
+    }
+
+    .dropDown {
+        @apply hidden
+    }
+    .navElement:hover .dropDown {
+        display: block;
+    }
+
+    .cartCount {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+    }
+}
