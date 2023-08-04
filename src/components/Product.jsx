@@ -42,7 +42,7 @@ const Product = () => {
             {title}
           </h1>
         </NavLink>
-        <NavLink to={`/categories/${category}`} className="block mt-3" >
+        <NavLink to={`/products/category/${category}`} className="block mt-3" >
           <p>{category}</p>
         </NavLink>
         <p className="mt-2 tracking-wider text-red-600">${price}</p>

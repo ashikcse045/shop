@@ -33,6 +33,11 @@ const CartItem = ({ products, productId, quantity, dispatch }) => {
     });
   };
 
+  const deleteItem = (e) => {
+    e.preventDefault();
+    dispatch({ type: "DELETE_CART", productId: productId });
+  };
+
   return (
     <div className="w-full h-28 flex flex-row items-center space-x-10">
       {/* <!-- image --> */}
@@ -63,7 +68,7 @@ const CartItem = ({ products, productId, quantity, dispatch }) => {
             +
           </button>
         </div>
-        <button type="button" className="text-red-600 text-lg capitalize mt-4">
+        <button type="button" onClick={deleteItem} className="text-red-600 text-lg capitalize mt-4">
           remove
         </button>
       </div>

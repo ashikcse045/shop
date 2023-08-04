@@ -20,6 +20,7 @@ const reducer = (state, action) => {
         cart: action.cart,
         loading: action.loading,
       };
+
     case "FAILED":
       return {
         ...state,
@@ -27,6 +28,7 @@ const reducer = (state, action) => {
         loading: false,
         error: true,
       };
+
     case "UPDATE":
       const updatedProducts = state.products.map((product) => {
         if (product.id == action.updatedProduct.id) {
@@ -96,6 +98,18 @@ const reducer = (state, action) => {
         cart: {
           ...state.cart,
           products: decrementCartProducts,
+        },
+      };
+
+    case "DELETE_CART":
+      const cartProductsAfterDelete = state.cart.products.filter(
+        (product) => product.productId != action.productId
+      );
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          products: cartProductsAfterDelete,
         },
       };
 
