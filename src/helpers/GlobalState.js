@@ -28,7 +28,6 @@ const reducer = (state, action) => {
         error: true,
       };
     case "UPDATE":
-      
       const updatedProducts = state.products.map((product) => {
         if (product.id == action.updatedProduct.id) {
           return {
@@ -60,6 +59,46 @@ const reducer = (state, action) => {
         products: productsAfterDelete,
       };
 
+    case "INCREMENT_CART":
+      const incrementCartProducts = state.cart["products"].map((element) => {
+        if (element.productId == action.productId) {
+          return {
+            ...element,
+            quantity: element.quantity + 1,
+          };
+        } else {
+          return element;
+        }
+      });
+
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          products: incrementCartProducts,
+        },
+      };
+
+    case "DECREMENT_CART":
+      const decrementCartProducts = state.cart["products"].map((element) => {
+        if (element.productId == action.productId && element.quantity > 1) {
+          return {
+            ...element,
+            quantity: element.quantity - 1,
+          };
+        } else {
+          return element;
+        }
+      });
+
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          products: decrementCartProducts,
+        },
+      };
+
     default:
       return state;
   }
@@ -85,7 +124,7 @@ const GlobalState = () => {
         const categoriesRes = await axios.get(
           "https://fakestoreapi.com/products/categories"
         );
-        const cartRes = await axios.get("https://fakestoreapi.com/carts");
+        const cartRes = await axios.get("https://fakestoreapi.com/carts/5");
 
         dispatch({
           type: "SUCCESS",

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Layout from "../Layout";
 import SelectBox from "../SelectBox";
 import TextInput from "../TextInput";
@@ -18,6 +18,10 @@ const AddProduct = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Add product';
+  });
 
   const handleChange = (e) => {
     e.preventDefault();

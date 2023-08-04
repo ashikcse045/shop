@@ -1,19 +1,48 @@
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import Img from "./Img";
 
-const CartItem = () => {
+const CartItem = ({ products, productId, quantity, dispatch }) => {
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    document.title = "Cart";
+  });
+
+  useEffect(() => {
+    products.forEach((e) => {
+      if (e.id === productId) {
+        setProduct(e);
+      }
+    });
+  }, [products, productId]);
+
+  const increment = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "INCREMENT_CART",
+      productId: productId,
+    });
+  };
+
+  const decrement = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "DECREMENT_CART",
+      productId: productId,
+    });
+  };
+
   return (
     <div className="w-full h-28 flex flex-row items-center space-x-10">
       {/* <!-- image --> */}
       <div className="w-28 h-28 border border-gray-500 box-border flex items-center overflow-hidden">
-        <Img url="https://images.unsplash.com/photo-1553456558-aff63285bdd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" />
+        <Img url={product.image} />
       </div>
 
       {/* <!-- details --> */}
       <div className="w-1/2">
-        <h1 className="text-xl font-semibold">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam,
-          exercitationem!
-        </h1>
+        <h1 className="text-xl font-semibold">{product.title}</h1>
       </div>
       {/* <!-- quantity --> */}
       <div className="w-1/4 text-center">
@@ -21,13 +50,15 @@ const CartItem = () => {
           <button
             type="button"
             className="flex items-center justify-center w-8 h-8 p-1 text-lg border border-primary rounded-lg hover:bg-primary hover:text-gray-100 transition-colors"
+            onClick={decrement}
           >
             -
           </button>
-          <span className="inline-block p-1 text-lg">12</span>
+          <span className="inline-block p-1 text-lg">{quantity}</span>
           <button
             type="button"
             className="flex items-center justify-center w-8 h-8 p-1 text-lg border border-primary rounded-lg hover:bg-primary hover:text-gray-100 transition-colors"
+            onClick={increment}
           >
             +
           </button>
@@ -38,7 +69,7 @@ const CartItem = () => {
       </div>
       {/* <!-- price --> */}
       <div className="w-1/4">
-        <p className="text-primary">$120</p>
+        <p className="text-primary">${product.price * quantity}</p>
       </div>
     </div>
   );

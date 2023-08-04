@@ -51,7 +51,7 @@ const Nav = () => {
                     shopping_cart
                   </span>
                   <span className="bg-primary w-5 h-5 flex items-center justify-center p-2 text-xs rounded-full cartCount">
-                    {globalState.cart.length}
+                    {globalState.cart.products ? globalState.cart.products.length : '0'}
                   </span>
                 </NavLink>
               </li>
