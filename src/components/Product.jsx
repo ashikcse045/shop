@@ -1,31 +1,44 @@
 import Img from "./Img";
 import MaterialIcon from "./MaterialIcon";
 import { NavLink } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import ProductContext from "../contexts/ProductContext";
 import axios from "axios";
+import UpdateProduct from "./UpdateProduct ";
 
 const Product = () => {
-  const {id, title, price, category, image, dispatch} = useContext(ProductContext);
-  useEffect(() => {
-    document.title = 'Home';
-  }, []);
+  const { id, title, price, category, image, description, dispatch } =
+    useContext(ProductContext);
+
+  const [updateBox, setUpdateBox] = useState(false);
 
   const handleDelete = (e) => {
     e.preventDefault();
-    
+
     const deleteProduct = async () => {
       try {
         const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
-        if(res.status === 200) {
-          dispatch({type: 'DELETE', productId: id});
+        if (res.status === 200) {
+          dispatch({ type: "DELETE", productId: id });
         }
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
-    }
+    };
     deleteProduct();
-  }
+  };
+
+  const showUpdateBox = (e) => {
+    e.preventDefault();
+    setUpdateBox(true);
+  };
+
+  const hideUpdateBox = (e) => {
+    // e.preventDefault();
+    if (e.target.id === "updateContainer" || e.target.id === "closeBtn") {
+      setUpdateBox(false);
+    }
+  };
 
   return (
     <div className="border border-gray-200">
@@ -42,15 +55,15 @@ const Product = () => {
             {title}
           </h1>
         </NavLink>
-        <NavLink to={`/products/category/${category}`} className="block mt-3" >
+        <NavLink to={`/products/category/${category}`} className="block mt-3">
           <p>{category}</p>
         </NavLink>
         <p className="mt-2 tracking-wider text-red-600">${price}</p>
         <ul className="flex flex-row justify-start space-x-4 mt-4">
           <li>
-            <NavLink to="/">
+            <button type="button" onClick={showUpdateBox}>
               <MaterialIcon>edit</MaterialIcon>
-            </NavLink>
+            </button>
           </li>
           <li>
             <button type="button" onClick={handleDelete}>
@@ -64,6 +77,8 @@ const Product = () => {
           </li>
         </ul>
       </div>
+
+      <UpdateProduct visible={updateBox} hideBox={hideUpdateBox} productDetails={{id, title, price, category, image, description}} dispatch={dispatch} />
     </div>
   );
 };
